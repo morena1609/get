@@ -1,20 +1,34 @@
 import RPi.GPIO as GPIO
 import time
-import random
+
+def decimal2binary(value):
+    
+     return [int(bit) for bit in bin(value)[2:].zfill(8)]
 
 GPIO.setmode(GPIO.BCM)
 
-leds = [21, 20, 16, 12, 7, 8, 25, 24]
-aux = [22, 23, 27, 18, 15, 14, 3, 2]
-GPIO.setup(leds, GPIO.OUT)
-GPIO.setup(aux, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+dac = [26, 19, 13, 6, 5, 11, 9, 10]
+GPIO.setup(dac, GPIO.OUT)
 
-GPIO.output(leds, 1)
 
 try:
     while True:
-        for i in range(8):
-            GPIO.output(leds[i], GPIO.input(aux[i]))
+        print("Введите целое число от 0 до 255")
+        n = input()
+        if n == "q":
+            quit()
+        if n.isdigit():
+            n = int(n)
+            if n < 0 or n > 255:
+                print("Вы ввели число, выходящее из заданного дипозона. Повторите ввод)")
+
+            else:
+                GPIO.output(dac, decimal2binary(n))
+                Vout = 3.3 * n / 256
+                print("Предполагаемое значение напряжения на выходе:", Vout)
+        
+        else:
+            print("Вы ввели неправильный тип данных. Повторите ввод)")
 finally:
-    GPIO.output(leds, 0)
+    GPIO.output(dac, 0)
     GPIO.cleanup()
