@@ -30,7 +30,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(troy, GPIO.OUT, initial = GPIO.HIGH)
 GPIO.setup(dac, GPIO.OUT)
 GPIO.setup(comp, GPIO.IN)
-
+#
 
 try:
     while True:
