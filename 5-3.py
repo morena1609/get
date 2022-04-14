@@ -1,13 +1,21 @@
+import math
+import time
+import RPi.GPIO as GPIO
+
+
 def dec2bin(num):
     return [int(e) for e in bin(num)[2:].zfill(8)]
+
 
 def dec2dac(num):
     GPIO.output(dac, dec2bin(num))
     return (dec2bin(num))
 
+
 def bin2dec(y):
     x = list(map(str, y))
-    return int(''.join(x), base = 2 )
+    return int(''.join(x), base=2)
+
 
 def adc():
     out = [0]*8
@@ -22,13 +30,8 @@ def adc():
     return dv
 
 
-
-import RPi.GPIO as GPIO
-import time
-import math
-
-dac = [26,19,13,6,5,11,9,10]
-leds = [21,20,16,12,7,8,25,24]
+dac = [26, 19, 13, 6, 5, 11, 9, 10]
+leds = [21, 20, 16, 12, 7, 8, 25, 24]
 bits = len(dac)
 levels = 2**bits
 max_volt = 3.3
@@ -51,7 +54,7 @@ try:
 
         num = math.ceil(x*8/256)
         vol = [1]*num
-        while len(vol)<8:
+        while len(vol) < 8:
             vol.append(0)
         GPIO.output(leds, vol)
 
